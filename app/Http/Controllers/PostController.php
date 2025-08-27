@@ -6,25 +6,25 @@ use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class PostController extends Controller
+class PostController extends Controller //all the classes wether post aw auth extends el main el hwa controller
 {
-    // List posts
+    //  posts
     public function index() {
         $posts = Post::with('user')->latest()->get();
         return view('posts.index', compact('posts'));
     }
 
-    // Show single post
+    // to see a single post
     public function show(Post $post) {
         return view('posts.show', compact('post'));
     }
 
-    // Show create form
+    // create form
     public function create() {
         return view('posts.create');
     }
 
-    // Store post
+   
     public function store(Request $request) {
         $request->validate([
             'title' => 'required',
@@ -40,7 +40,7 @@ class PostController extends Controller
         return redirect('/posts');
     }
 
-    // Show edit form
+    // how to edit a post >>
     public function edit(Post $post) {
         if ($post->user_id !== Auth::id()) {
             abort(403);

@@ -10,24 +10,30 @@ use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
-    // Show register form
+    // this code to show the reg form 
+    //------------------------------------
     public function registerForm() {
         return view('auth.register');
     }
 
-    // Handle register
+    // required fields for reg 
+    //----------------------------
+
     public function register(Request $request) {
         $request->validate([
             'name' => 'required',
-            'email' => 'required|email|unique:users',
+            'email' => 'required|email|unique:users', //required command to make it obligataory
             'password' => 'required|confirmed|min:6',
         ]);
+
+        //how to create the user data 
 
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
+
 
         Auth::login($user);
         return redirect('/posts');
@@ -38,7 +44,7 @@ class AuthController extends Controller
         return view('auth.login');
     }
 
-    // Handle login
+    // here i did how to login
     public function login(Request $request) {
         $credentials = $request->only('email', 'password');
 
